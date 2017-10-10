@@ -5,8 +5,10 @@
  */
 package id.co.indocyber.view;
 
+import id.co.indocyber.controller.SoalController;
 import id.co.indocyber.model.BankSoal;
 import id.co.indocyber.model.Category;
+import id.co.indocyber.model.UserAdmin;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -24,33 +26,20 @@ public class MainApp {
         // TODO code application logic here
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("SwingGames");
         EntityManager em = emf.createEntityManager();
-        
+//        
         em.getTransaction().begin();
+//
+        UserAdmin admin = new UserAdmin();
+        admin.setUserName("admin");
+        admin.setPassword("indocyber");
         
-        Category kat1 = new Category();
-        kat1.setCategoryName("Provinsi");
-        Category kat2 = new Category();
-        kat2.setCategoryName("Kota");
-        em.persist(kat1);
-        em.persist(kat2);
-        
-        BankSoal soal1 = new BankSoal("Lampung", "Tempat asal pempek");
-        soal1.setCategory(kat1);
-        BankSoal soal2 = new BankSoal("Jakarta", "Ibukota Negara Indonesia");
-        soal2.setCategory(kat1);
-        BankSoal soal3 = new BankSoal("Depok", "Tempat Universitas Indonesia");
-        soal3.setCategory(kat2);
-        BankSoal soal4 = new BankSoal("Bogor", "Dikenal sebagai kota hujan");
-        soal4.setCategory(kat2);
-        em.persist(soal1);
-        em.persist(soal2);
-        em.persist(soal3);
-        em.persist(soal4);
+        em.persist(admin);
         
         em.getTransaction().commit();
-        
+//        
         em.close();
         emf.close();
+
     }
     
 }

@@ -10,6 +10,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 
 /**
  *
@@ -21,15 +22,33 @@ public class WordGenerator {
     private EntityManager em;
     private Category cat;
     
-    public List<BankSoal> bankSoal(Long id){
+    public List<BankSoal> bankSoal(String category){
         List<BankSoal> bankSoal = new ArrayList<>();
         
         emf = Persistence.createEntityManagerFactory("SwingGames");
         em = emf.createEntityManager();
-        cat = em.find(Category.class, id);
+        Query query = em.createQuery("Select c from Category c where c.categoryName = :categoryName");
+        query.setParameter("categoryName", category);
+        cat = (Category) query.getSingleResult();
+//        cat = em.find(Category.class, category);
         bankSoal = cat.getBankSoals();
         
+        em.close();
+        emf.close();
         return bankSoal;
+    }
+    
+    public List<Category> getAllCategory(){
+        List<Category> category = new ArrayList();
+        emf = Persistence.createEntityManagerFactory("SwingGames");
+        em = emf.createEntityManager();
+        
+        category = em.createQuery("Select c from Category c").getResultList();
+        
+        em.close();
+        emf.close();
+        
+        return category;
     }
     
 }

@@ -6,7 +6,10 @@
 package id.co.indocyber.controller;
 
 import id.co.indocyber.model.BankSoal;
+import id.co.indocyber.model.Category;
 import id.co.indocyber.model.WordGenerator;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -18,29 +21,54 @@ public class SoalController {
     
     private String soal;
     private String hintSoal;
-    private Boolean jawaban;
-    private Long id;
-    private WordGenerator word;
+    private String jawaban;
+//    private Long id;
+    private String categoryName;
+    private WordGenerator word = new WordGenerator();;
+
+    public SoalController() {
+    }
     
-    public SoalController(Long id) {
-        word = new WordGenerator();
-        this.id = id;
+    public SoalController(String category) {
+        this.categoryName = category;
     }
     
     public String generateSoal(){
-        soal = soal.toUpperCase();
+//        soal = soal.toUpperCase();
         
-        List<BankSoal> wordgen = word.bankSoal(id);
+        List<BankSoal> wordgen = word.bankSoal(categoryName);
         Collections.shuffle(wordgen);
         
+        StringBuilder sb = new StringBuilder();
         for (BankSoal bankSoal : wordgen) {
             soal = bankSoal.getSoal();
             hintSoal = bankSoal.getHint();
         }
         
+        String[] huruf = soal.split("");
+        List<String> hurufHuruf = Arrays.asList(huruf);
+        Collections.shuffle(hurufHuruf);
+        
+        for (String hrf : hurufHuruf) {
+            sb.append(hrf);
+        }
         //wordgen.get(1).getSoal();
         
-        return soal;
+        return sb.toString();
+    }
+    
+    public List<Category> getCategory(){
+        List<Category> cat = new ArrayList<>();
+        cat = word.getAllCategory();
+        return cat;
+    }
+    
+    public Boolean cekJawaban(){
+        Boolean res = false;
+        if(getJawaban().equalsIgnoreCase(soal))
+            res = true;
+
+        return res;
     }
 
     /**
@@ -74,22 +102,22 @@ public class SoalController {
     /**
      * @return the jawaban
      */
-    public Boolean getJawaban() {
+    public String getJawaban() {
         return jawaban;
     }
 
     /**
      * @param jawaban the jawaban to set
      */
-    public void setJawaban(Boolean jawaban) {
+    public void setJawaban(String jawaban) {
         this.jawaban = jawaban;
     }
 
     /**
      * @return the id
      */
-    public Long getId() {
-        return id;
+    public String getCategoryName() {
+        return categoryName;
     }
     
 }

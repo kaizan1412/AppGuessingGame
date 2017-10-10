@@ -4,6 +4,7 @@
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <class>id.co.indocyber.model.BankSoal</class>
     <class>id.co.indocyber.model.Category</class>
+    <class>id.co.indocyber.model.UserAdmin</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:derby://localhost:1527/SwingGames"/>
       <property name="javax.persistence.jdbc.user" value="app"/>
